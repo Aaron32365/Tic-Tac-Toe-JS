@@ -5,7 +5,7 @@
   /* css variables */
   :root{
       --cell-size: 100px;
-      --mark-size: cal(var(--cell-size) * .9);
+      --mark-size: calc(var(--cell-size) * .9);
   }
 
   body {
@@ -23,14 +23,38 @@
     align-items: center;
     grid-template-columns: repeat(3, auto);
   }
+
+.cell.x::before,
+.cell.x::after{
+    background-color: black;
+}
+
   
+.board.x .cell:not(.x):not(.circle):hover::before{
+    background-color: lightgray;
+}
+  
+.board.x .cell:not(.x):not(.circle):hover::after{
+    background-color: lightgray;
+}
+
+
   /* each cell on board */
   .cell {
     width: var(--cell-size);
     height: var(--cell-size);
     border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
   }
-  
+
+  .cell.x,
+  .cell.circle{
+      cursor: not-allowed;
+  }
   /* remove border for cells on top */
   .cell:first-child,
   .cell:nth-child(2),
@@ -54,6 +78,44 @@
       border-bottom: none;
   }
 
-.cell.x{
-    background-color: red;
+/* create x in css */
+
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    position: absolute;
+    content:'';
+    width: calc(var(--mark-size) * .15);
+    height: var(--mark-size)
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before{
+    transform: rotate(45deg);
+}
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    transform: rotate(-45deg);
+}
+
+
+/* create o in css */
+.cell.circle::before,
+.cell.circle::after {
+    position: absolute;
+    content:'';
+    border-radius: 50%;
+}
+
+.cell.circle::before{
+    width: var(--mark-size);
+    height: var(--mark-size);
+    background-color: black;
+}
+
+.cell.circle::after{
+    width: calc(var(--mark-size) * .7);
+    height: calc(var(--mark-size) * .7);
+    background-color: white;
 }
